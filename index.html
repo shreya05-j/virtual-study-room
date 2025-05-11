@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-500">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Study Room</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Toggle dark mode
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      html.classList.toggle('dark');
+    }
+  </script>
+</head>
+
+<body class="transition-colors duration-500 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 text-blue-900 dark:text-blue-100">
+
+  <!-- Toggle Button -->
+  <div class="flex justify-end p-4">
+    <button onclick="toggleDarkMode()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300">
+      Toggle Mode
+    </button>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="bg-blue-900 dark:bg-blue-950 text-white text-center text-3xl font-extrabold shadow-lg h-32 flex items-center justify-center transition-colors duration-500">
+  Virtual Study Room
+</nav>
+
+
+  <!-- Main Content -->
+  <main class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mt-10">
+
+    <!-- Pomodoro Timer -->
+    <section class="bg-blue-100 dark:bg-blue-800 p-6 rounded-lg shadow-lg text-center transition-all hover:scale-105 hover:shadow-2xl">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-700 dark:text-blue-200">Pomodoro Timer</h2>
+      <div id="timer" class="text-4xl text-blue-600 dark:text-blue-100 font-mono mb-6">25:00</div>
+      <button id="toggle-timer" class="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition duration-200">Start</button>
+    </section>
+
+    <!-- Lo-Fi Music Player -->
+    <section class="bg-blue-200 dark:bg-blue-700 p-6 rounded-lg shadow-lg text-center transition-all hover:scale-105 hover:shadow-2xl">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-700 dark:text-blue-100">Lo-Fi Music</h2>
+      <audio id="lofi-audio" loop>
+        <source src="https://lofi-cafe.s3.amazonaws.com/lofi1.mp3" type="audio/mp3">
+      </audio>
+      <button id="toggle-music" class="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition duration-200">Play</button>
+    </section>
+
+    <!-- Notes Section -->
+    <section class="bg-blue-300 dark:bg-blue-600 p-6 rounded-lg shadow-lg col-span-1 md:col-span-2 lg:col-span-1 transition-all hover:scale-105 hover:shadow-2xl">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-700 dark:text-blue-100 text-center">Study Notes</h2>
+      <textarea id="notes" class="w-full h-40 p-4 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:text-white" placeholder="Write your notes here..."></textarea>
+      <div class="flex flex-wrap gap-4 mt-4 justify-center">
+        <button id="export-notes" class="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 transition duration-200">Export Notes</button>
+        <label class="bg-blue-200 dark:bg-blue-500 text-blue-800 dark:text-white px-6 py-3 rounded-xl cursor-pointer hover:bg-blue-300 dark:hover:bg-blue-600">
+          Upload Image
+          <input type="file" id="image-upload" accept="image/*" hidden />
+        </label>
+        <label class="bg-blue-200 dark:bg-blue-500 text-blue-800 dark:text-white px-6 py-3 rounded-xl cursor-pointer hover:bg-blue-300 dark:hover:bg-blue-600">
+          Upload PDF
+          <input type="file" id="pdf-upload" accept="application/pdf" hidden />
+        </label>
+      </div>
+      <div id="attachments" class="mt-6 space-y-4"></div>
+    </section>
+
+    <!-- To-Do List -->
+    <section class="bg-blue-400 dark:bg-blue-700 p-6 rounded-lg shadow-lg col-span-1 md:col-span-2 lg:col-span-1 transition-all hover:scale-105 hover:shadow-2xl">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-900 dark:text-blue-100 text-center">To-Do List</h2>
+      <div class="flex gap-2 mb-4 justify-center">
+        <input type="text" id="todo-input" placeholder="Enter a task..." class="flex-grow p-3 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-blue-600 dark:text-white">
+        <button id="add-todo" class="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 transition duration-200">Add</button>
+      </div>
+      <ul id="todo-list" class="space-y-2 text-blue-900 dark:text-blue-100"></ul>
+    </section>
+
+    <!-- Productivity Tracker -->
+    <section class="bg-blue-500 dark:bg-blue-900 p-6 rounded-lg shadow-lg col-span-1 md:col-span-2 lg:col-span-3 transition-all hover:scale-105 hover:shadow-2xl">
+      <h2 class="text-2xl font-semibold mb-6 text-center text-white">Productivity Tracker</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 text-center">
+        <div class="bg-blue-200 dark:bg-blue-700 p-6 rounded-lg">
+          <p class="text-lg font-medium">Sessions Completed</p>
+          <p id="session-count" class="text-3xl font-bold text-blue-800 dark:text-blue-100">0</p>
+        </div>
+        <div class="bg-blue-200 dark:bg-blue-700 p-6 rounded-lg">
+          <p class="text-lg font-medium">Time Focused (min)</p>
+          <p id="focused-minutes" class="text-3xl font-bold text-blue-800 dark:text-blue-100">0</p>
+        </div>
+        <div class="bg-blue-200 dark:bg-blue-700 p-6 rounded-lg">
+          <p class="text-lg font-medium">Tasks Done</p>
+          <p id="tasks-completed" class="text-3xl font-bold text-blue-800 dark:text-blue-100">0</p>
+        </div>
+      </div>
+      <canvas id="productivityChart" height="100"></canvas>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 dark:bg-blue-800 text-white py-4 text-center text-sm transition-colors duration-500">
+    <p class="font-semibold">By Shreya Jaiswal</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

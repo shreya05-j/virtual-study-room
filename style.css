@@ -1,0 +1,110 @@
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #3b82f6;
+  border-radius: 8px;
+}
+.attachment-preview {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+.todo-item {
+  transition: all 0.2s ease-in-out;
+}
+.todo-item.completed {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.7;
+}
+/* Button Hover Animations */
+button:hover, label:hover {
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Smooth Fade-In for Sections */
+section {
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* To-Do List Task Adding Animation */
+.todo-item {
+  opacity: 0;
+  transform: translateX(-100%);
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* To-Do Item Complete Animation */
+.todo-item.completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Smooth Image/PDF Upload Preview */
+.attachment-preview {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: fadeInPreview 0.5s forwards;
+}
+
+@keyframes fadeInPreview {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Smooth Chart Transition */
+canvas {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Button and Input Transition Effects */
+input:focus, button:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.6);
+}
+footer {
+  font-size: 14px;
+  color: #4B5563;
+  margin-top: 20px;
+  padding: 10px 0;
+}
+
+footer p {
+  font-style: italic;
+  color: #3B82F6; /* Blue color for the text */
+}
